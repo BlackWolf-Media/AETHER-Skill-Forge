@@ -135,9 +135,9 @@ export default function App() {
                 <button className="p-2 text-white/20 hover:text-white transition-colors relative">
                     <Bell className="w-5 h-5" />
                 </button>
-                <div className="w-10 h-10 rounded-full border border-white/20 bg-gradient-to-b from-white/10 to-transparent p-1">
-                    <div className="w-full h-full rounded-full bg-white/10 overflow-hidden">
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=BlackWolf" alt="Avatar" className="w-full h-full" />
+                <div className="w-10 h-10 rounded-full border border-white/20 bg-gradient-to-b from-white/10 to-transparent p-1 flex items-center justify-center">
+                    <div className="w-full h-full rounded-full bg-black flex items-center justify-center overflow-hidden border border-white/5 shadow-inner text-xl">
+                        <span className="[filter:brightness(0)_drop-shadow(0_0_1px_#fff)_drop-shadow(0_0_1px_#fff)] select-none">🐺</span>
                     </div>
                 </div>
             </div>
@@ -165,10 +165,28 @@ export default function App() {
         </div>
       </main>
 
-      {/* Decorative Floating Elements */}
-      <div className="fixed top-0 left-0 w-full h-full pointer-events-none z-0">
-          <div className="absolute top-[10%] left-[20%] w-[400px] h-[400px] bg-indigo-600/5 blur-[120px] rounded-full" />
-          <div className="absolute bottom-[10%] right-[10%] w-[600px] h-[600px] bg-purple-600/5 blur-[150px] rounded-full" />
+      {/* Neural Manifestation Layer - Background Drifting Orbs */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+          {/* Primary Cyan Orb */}
+          <div 
+            className="neural-orb w-[600px] h-[600px] top-[10%] left-[5%] bg-cyan-500/10 blur-[120px]" 
+            style={{ animationDelay: '0s', animationDuration: '25s' }}
+          />
+          {/* Deep Indigo Orb */}
+          <div 
+            className="neural-orb w-[500px] h-[500px] bottom-[15%] right-[10%] bg-indigo-600/10 blur-[140px]" 
+            style={{ animationDelay: '-5s', animationDuration: '30s' }}
+          />
+          {/* Accent Blue Orb */}
+          <div 
+            className="neural-orb w-[300px] h-[300px] top-[40%] right-[30%] bg-blue-400/5 blur-[100px]" 
+            style={{ animationDelay: '-12s', animationDuration: '22s' }}
+          />
+          {/* Center Manifestation */}
+          <div 
+            className="neural-orb w-[450px] h-[450px] bottom-[5%] left-[30%] bg-cyan-400/5 blur-[130px]" 
+            style={{ animationDelay: '-8s', animationDuration: '28s' }}
+          />
       </div>
     </div>
   );

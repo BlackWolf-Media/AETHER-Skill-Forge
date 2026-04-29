@@ -9,7 +9,10 @@ import {
   Plus,
   Shield,
   Clock,
-  Sparkles
+  Sparkles,
+  Microscope,
+  ShieldCheck,
+  Globe
 } from 'lucide-react';
 import { GlassCard } from './GlassCard';
 import { cn } from '@/lib/utils';
@@ -23,9 +26,9 @@ export default function DashboardView() {
   ];
 
   const recentAgents = [
-    { name: 'Research Architect', role: 'Advanced RAG', status: 'Optimal', uptime: '99.9%' },
-    { name: 'Marketing Copilot', role: 'Creative Writing', status: 'Idle', uptime: '98.4%' },
-    { name: 'Security Guard', role: 'Anomaly Detection', status: 'Optimal', uptime: '100%' },
+    { name: 'Research Architect', role: 'Advanced RAG', status: 'Optimal', uptime: '99.9%', icon: Microscope },
+    { name: 'Security Sentinel', role: 'Anomaly Detection', status: 'Optimal', uptime: '100%', icon: ShieldCheck },
+    { name: 'Market Intel Core', role: 'Trend Manifestation', status: 'Optimal', uptime: '98.4%', icon: Globe },
   ];
 
   return (
@@ -94,7 +97,7 @@ export default function DashboardView() {
               >
                 <GlassCard className="p-4 flex items-center gap-4 hover:bg-white/5 transition-colors cursor-pointer group">
                   <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-cyan-500/20 to-sky-500/20 flex items-center justify-center border border-white/10 group-hover:border-white/20 transition-all">
-                    <Sparkles className="w-6 h-6 text-cyan-400" />
+                    <agent.icon className="w-6 h-6 text-cyan-400" />
                   </div>
                   <div className="flex-1">
                     <h4 className="text-sm font-bold text-white">{agent.name}</h4>
