@@ -36,24 +36,12 @@ import {
   Cpu
 } from 'lucide-react';
 import { GlassCard } from './GlassCard';
-import { cn } from '@/lib/utils';
-import { Skill } from '@/types';
-import { generateSkillInstructions } from '@/services/geminiService';
-
-interface AttachedFile {
-  name: string;
-  type: string;
-  data: string;
-  preview?: string;
-}
-
-interface MCPConfig {
-  id: string;
-  name: string;
-  url: string;
-  type: string;
-  category: string;
-}
+import { cn, generateId } from '@/lib/utils';
+import { Skill, MCPConfig } from '@/types';
+import { generateSkillInstructions, type FileAttachment } from '@/services/geminiService';
+import { useFileUpload, type AttachedFile } from '@/hooks/useFileUpload';
+import { config } from '@/config';
+import { AppError } from '@/errors/AppError';
 
 interface SkillTemplate {
   id: string;
@@ -113,10 +101,21 @@ export default function ForgeView() {
   
   // Mock skill count for limit enforcement
   const existingSkillsCount = 1; 
-  const isSkillLimitReached = existingSkillsCount >= 2;
-  const isMcpLimitReached = mcpServers.length >= 4;
+  const isSkillLimitReached = existingSkillsCount >= config.limits.maxSkills;
+  const isMcpLimitReached = mcpServers.length >= config.limits.maxMcpServers;
 
-  const [attachedFiles, setAttachedFiles] = React.useState<AttachedFile[]>([]);
+  const {
+    files: attachedFiles,
+    isUploading,
+    error: uploadError,
+    uploadFiles: handleFileUpload,
+    removeFile,
+    clearFiles,
+  } = useFileUpload({
+    maxFileSize: config.limits.maxFileSize,
+    allowedTypes: config.limits.allowedFileTypes,
+  });
+
   const [isGenerating, setGenerating] = React.useState(false);
   const [step, setStep] = React.useState(1);
 
@@ -126,24 +125,11 @@ export default function ForgeView() {
     const files = e.target.files;
     if (!files) return;
 
-    for (const file of Array.from(files)) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64Data = (event.target?.result as string).split(',')[1];
-        const newFile: AttachedFile = {
-            name: file.name,
-            type: file.type,
-            data: base64Data,
-            preview: file.type.startsWith('image/') ? URL.createObjectURL(file) : undefined
-        };
-        setAttachedFiles(prev => [...prev, newFile]);
-      };
-      reader.readAsDataURL(file);
+    try {
+      await handleFileUpload(files);
+    } catch (error) {
+      console.error('File upload failed:', error);
     }
-  };
-
-  const removeFile = (index: number) => {
-    setAttachedFiles(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleGenerate = async () => {

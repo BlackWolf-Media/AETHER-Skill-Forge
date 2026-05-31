@@ -8,6 +8,8 @@ export interface Skill {
   ownerId: string;
   createdAt: string;
   updatedAt: string;
+  category?: string;
+  customCode?: string;
 }
 
 export interface Agent {
@@ -17,6 +19,7 @@ export interface Agent {
   skills: string[]; // IDs of skills
   modelIdentifier: string;
   ownerId: string;
+  status?: 'active' | 'inactive' | 'training';
 }
 
 export interface Message {
@@ -39,4 +42,12 @@ export interface EvaluationRun {
   }>;
   overallScore: number;
   timestamp: string;
+}
+
+export interface MCPConfig {
+  id: string;
+  name: string;
+  url: string;
+  type: string;
+  category: string;
 }
